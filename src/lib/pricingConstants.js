@@ -1,0 +1,1 @@
+export const TOUR_PRICE_PER_PERSON = 20;
