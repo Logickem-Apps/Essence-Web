@@ -1,110 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /*
+    INMERSIVO THEME — dark.
+    Tokens are semantic (CSS vars) so a light theme can be added later by
+    swapping the values under a `.light` selector without touching components.
+    shadcn/ui tokens use the "H S% L%" triplet format consumed via hsl(var(--x)).
+  */
   :root {
-    /* Brand Colors (Essence Rabinal Palette - Rebalanced) */
-    /* BACKGROUND: Marfil Cálido #F5F1E8 */
-    --background: 40 25% 96%;
-    /* FOREGROUND: Texto Oscuro */
-    --foreground: 220 13% 20%;
+    /* shadcn semantic tokens — Inmersivo dark */
+    --background: 140 12% 5%;        /* #0b0e0c ink */
+    --foreground: 40 25% 93%;        /* #F2EFE9 cream */
 
-    /* PRIMARY: Naranja Rabinal #F28B1A (Protagonista) */
-    --primary: 25 85% 50%;
-    --primary-foreground: 0 0% 100%;
+    --card: 150 14% 6%;              /* #0e1310 surface */
+    --card-foreground: 40 25% 93%;
 
-    /* SECONDARY: Dorado/Arena #C6A867 (Detalles) */
-    --secondary: 40 30% 75%;
-    --secondary-foreground: 220 13% 20%;
+    --popover: 150 14% 6%;
+    --popover-foreground: 40 25% 93%;
 
-    /* ACCENT: Verde Institucional #234126 (Apoyo/Títulos) */
-    --accent: 160 30% 15%;
-    --accent-foreground: 0 0% 100%;
+    --primary: 36 69% 60%;           /* #E0A954 gold */
+    --primary-foreground: 33 53% 7%; /* #1a1208 */
 
-    /* MUTED: Marfil Oscurecido */
-    --muted: 40 20% 85%;
-    --muted-foreground: 220 13% 40%;
+    --secondary: 158 49% 48%;        /* #3FB68B jade */
+    --secondary-foreground: 140 12% 5%;
 
-    /* CARD: Blanco Puro */
-    --card: 0 0% 100%;
-    --card-foreground: 220 13% 20%;
+    --muted: 150 10% 11%;
+    --muted-foreground: 40 10% 72%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 20%;
+    --accent: 36 69% 60%;            /* gold as accent */
+    --accent-foreground: 33 53% 7%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    /* BORDERS & INPUTS */
-    --border: 40 30% 75%; /* Dorado sutil */
-    --input: 0 0% 100%; /* Blanco */
-    --ring: 25 85% 50%; /* Naranja */
+    --border: 150 6% 16%;
+    --input: 150 8% 14%;
+    --ring: 36 69% 60%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
+
+    /* Inmersivo design tokens (hex/rgba) for richer styling */
+    --ink: #0b0e0c;
+    --ink-2: #0e1310;
+    --ink-3: #07100a;
+    --cream: #F2EFE9;
+    --gold: #E0A954;
+    --gold-2: #caa14a;
+    --gold-ink: #1a1208;
+    --jade: #3FB68B;
+    --whatsapp: #25D366;
+
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --hairline: rgba(255, 255, 255, 0.08);
 
     /* Typography */
-    --font-display: 'Playfair Display', serif;
-    --font-heading: 'Montserrat', sans-serif;
-    --font-body: 'Montserrat', sans-serif;
-
-    /* Footer Specific Tokens */
-    --footer-bg: 160 30% 15%; /* Verde Institucional */
-    --footer-fg: 40 25% 96%; /* Marfil */
-    --footer-muted: 40 20% 80%;
-    --footer-accent: 25 85% 50%; /* Naranja Rabinal */
-
-    /* Admin Panel Dedicated Theme Tokens */
-    --admin-background: 40 25% 96%;
-    --admin-foreground: 220 13% 20%;
-    --admin-sidebar: 160 30% 15%;
-    --admin-sidebar-foreground: 40 25% 96%;
-    --admin-sidebar-accent: 25 85% 50%;
-    --admin-card: 0 0% 100%;
-    --admin-card-foreground: 220 13% 20%;
-    --admin-border: 40 30% 75%;
-    --admin-input: 0 0% 100%;
-    --admin-muted: 40 20% 85%;
-    --admin-muted-foreground: 220 13% 40%;
-
-    --watermark-opacity: 0.05;
-    --watermark-blur: 0.5px;
-
-    /* Navbar Optimization Styles */
-    --header-py-mobile: 10px;
-    --header-px-mobile: 12px;
-    --header-py-tablet: 12px;
-    --header-px-tablet: 16px;
-    --header-py-desktop: 16px;
-    --header-px-desktop: 24px;
-
-    --logo-h-mobile: 55px;
-    --logo-h-tablet: 65px;
-    --logo-h-desktop: 75px;
-  }
-
-  .dark {
-    /* Dark mode mapped to maintain brand identity but darker */
-    --background: 160 30% 10%;
-    --foreground: 40 25% 96%;
-    --card: 160 30% 15%;
-    --card-foreground: 40 25% 96%;
-    --popover: 160 30% 15%;
-    --popover-foreground: 40 25% 96%;
-    --primary: 25 85% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 40 30% 75%;
-    --secondary-foreground: 160 30% 10%;
-    --accent: 160 30% 20%;
-    --accent-foreground: 40 25% 96%;
-    --muted: 160 30% 20%;
-    --muted-foreground: 40 20% 70%;
-    --border: 40 30% 75%;
-    --input: 160 30% 15%;
-    --ring: 25 85% 50%;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Manrope', sans-serif;
   }
 
   * {
@@ -122,147 +79,85 @@
     font-size: 16px;
     line-height: 1.625;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--gold-ink);
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
     text-wrap: balance;
     color: inherit;
   }
 
   h1 {
-    font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    @apply text-accent;
+    letter-spacing: -0.03em;
   }
 
   h2, h3, h4 {
-    font-family: var(--font-heading);
     font-weight: 600;
-    @apply text-accent;
   }
 }
 
 @layer components {
-  /* Header Navbar Classes */
-  .header-container {
-    @apply w-full transition-all duration-300 border-b border-secondary/40 z-50 sticky top-0;
+  /* Glassmorphism surface */
+  .ez-glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
-  .header-inner {
-    @apply mx-auto flex items-center justify-between;
-    padding: var(--header-py-mobile) var(--header-px-mobile);
+  /* Image zoom inside a hovered card */
+  .ez-zoom {
+    transition: transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .ez-card:hover .ez-zoom {
+    transform: scale(1.08);
+  }
+  .ez-card:hover .ez-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .ez-card:hover .ez-meta {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .logo-wrapper {
-    @apply flex items-center flex-shrink-0;
-    width: auto;
-    height: 100%;
-    margin-right: 20px;
-    margin-left: 4px;
-    padding: 2px;
+  /* Hover lift for cards/tiles */
+  .ez-lift {
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
   }
 
-  .logo-img {
-    height: var(--logo-h-mobile);
-    width: auto;
-    object-fit: contain;
+  /* Animated underline link */
+  .ez-link {
+    position: relative;
+  }
+  .ez-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 2px;
+    width: 0;
+    background: currentColor;
+    transition: width 0.25s ease;
+  }
+  .ez-link:hover::after {
+    width: 100%;
   }
 
-  @media (min-width: 768px) {
-    .header-inner {
-      padding: var(--header-py-tablet) var(--header-px-tablet);
-    }
-    .logo-wrapper {
-      margin-right: 24px;
-      margin-left: 6px;
-    }
-    .logo-img {
-      height: var(--logo-h-tablet);
-    }
+  /* Gold gradient pill button */
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    color: var(--gold-ink);
   }
-
-  @media (min-width: 1024px) {
-    .header-inner {
-      padding: var(--header-py-desktop) var(--header-px-desktop);
-    }
-    .logo-wrapper {
-      margin-right: 28px;
-      margin-left: 8px;
-      padding: 4px;
-    }
-    .logo-img {
-      height: var(--logo-h-desktop);
-    }
-  }
-
-  .brand-name {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  .title-hero {
-    @apply text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-[hsl(var(--background))];
-  }
-
-  .title-card {
-    @apply text-2xl md:text-[28px] font-bold leading-snug text-accent;
-  }
-
-  .text-desc {
-    @apply text-base md:text-lg leading-relaxed text-foreground/80;
-  }
-
-  .text-small {
-    @apply text-[13px] md:text-sm leading-normal;
-  }
-
-  .transition-smooth {
-    @apply transition-all duration-300 ease-in-out;
-  }
-
-  .transition-slow {
-    @apply transition-all duration-500 ease-out;
-  }
-
-  /* Card Redesign Logic */
-  .hover-card-elevate {
-    @apply bg-card border border-secondary/50 shadow-sm transition-all duration-300 ease-out hover:border-primary hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
-  }
-
-  .nav-card-overlay {
-    @apply absolute inset-0 bg-accent/30 transition-colors duration-300 ease-in-out group-hover:bg-accent/50 z-10;
-  }
-
-  .nav-card-image {
-    @apply w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 z-0;
-  }
-
-  /* Admin Panel Specific Styles */
-  .admin-layout {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-  }
-
-  .admin-card {
-    @apply bg-[hsl(var(--admin-card))] text-[hsl(var(--admin-card-foreground))] shadow-sm border border-[hsl(var(--admin-border))]/50;
-  }
-
-  .admin-input {
-    @apply bg-[hsl(var(--admin-input))] border-[hsl(var(--admin-border))] text-[hsl(var(--admin-foreground))] placeholder:text-[hsl(var(--admin-muted-foreground))] focus-visible:ring-primary;
-  }
-
-  .admin-btn-outline {
-    @apply border-2 border-[hsl(var(--admin-sidebar))] text-[hsl(var(--admin-sidebar))] hover:bg-[hsl(var(--admin-sidebar-accent))] hover:text-white hover:border-[hsl(var(--admin-sidebar-accent))] bg-[hsl(var(--admin-card))];
-  }
-
-  .admin-table th {
-    @apply text-xs font-semibold tracking-wider uppercase bg-[hsl(var(--admin-muted))];
-  }
-
-  .admin-table td {
-    @apply py-3;
+  .btn-gold:hover {
+    filter: brightness(1.08);
   }
 }
 
@@ -271,31 +166,68 @@
     text-wrap: balance;
   }
 
-  .watermark-bg {
-    position: absolute;
-    opacity: var(--watermark-opacity);
-    filter: blur(var(--watermark-blur));
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    z-index: 0;
+  /* Gradient text helper (gold → cream → jade) */
+  .text-gradient {
+    background: linear-gradient(90deg, var(--gold), #f0d9a8, var(--jade));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
-  .watermark-size {
-    width: 160px;
-    height: 160px;
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
   }
 
-  @media (min-width: 768px) {
-    .watermark-size {
-      width: 220px;
-      height: 220px;
-    }
+  /* Hide scrollbar on horizontal carousels */
+  .ez-hscroll::-webkit-scrollbar {
+    display: none;
   }
+  .ez-hscroll {
+    scrollbar-width: none;
+  }
+}
 
-  @media (min-width: 1024px) {
-    .watermark-size {
-      width: 300px;
-      height: 300px;
-    }
+/* Keyframes (ported from the Inmersivo mockup) */
+@keyframes ezZoom {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.18); }
+}
+@keyframes ezFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes ezBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+@keyframes ezShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes ezGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(224, 169, 84, 0); }
+  50% { box-shadow: 0 0 36px 4px rgba(224, 169, 84, 0.35); }
+}
+@keyframes ezRise {
+  from { opacity: 0.001; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ezPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -38,22 +38,18 @@ export const AdminAuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    try {
-      const authData = await pb.collection('users').authWithPassword(email, password, {
-        $autoCancel: false,
-      });
-      
-      if (authData.record.role !== 'admin') {
-        pb.authStore.clear(); // Clear store if not admin
-        setCurrentAdmin(null);
-        throw new Error('Acceso denegado. Se requieren permisos de administrador.');
-      }
-      
-      setCurrentAdmin(authData.record);
-      return authData;
-    } catch (error) {
-      throw error;
+    const authData = await pb.collection('users').authWithPassword(email, password, {
+      $autoCancel: false,
+    });
+
+    if (authData.record.role !== 'admin') {
+      pb.authStore.clear(); // Clear store if not admin
+      setCurrentAdmin(null);
+      throw new Error('Acceso denegado. Se requieren permisos de administrador.');
     }
+
+    setCurrentAdmin(authData.record);
+    return authData;
   };
 
   const logout = () => {

@@ -1,59 +1,59 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Globe, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Globe, Sparkles, ArrowRight } from 'lucide-react';
+import Reveal from '@/components/immersive/Reveal.jsx';
 
 function PersonalizedExperiencesSection() {
   return (
-    <section className="py-20 md:py-28 bg-accent/30 border-y border-border/50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto bg-card rounded-3xl p-8 md:p-12 shadow-xl border border-border/60 relative overflow-hidden">
-          
-          {/* Decorative background element */}
-          <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-            <Globe className="w-64 h-64 text-foreground" />
+    <section className="bg-ink py-16 md:py-24">
+      <div className="mx-auto max-w-4xl px-5 md:px-8">
+        <Reveal className="relative overflow-hidden rounded-[26px] border border-gold/30 bg-gradient-to-br from-gold/[0.16] to-jade/10 p-8 md:p-12">
+          <div className="pointer-events-none absolute -right-10 -top-10 opacity-[0.07]">
+            <Globe className="h-64 w-64 text-cream" />
           </div>
 
           <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-                <Globe className="w-8 h-8" />
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/30 to-jade/20 text-gold">
+                <Globe className="h-8 w-8" />
               </div>
-              <h2 className="text-3xl md:text-[36px] font-bold text-card-foreground tracking-tight">
+              <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-[36px]">
                 Experiencias Personalizadas
               </h2>
             </div>
 
-            <div className="space-y-5 text-desc text-muted-foreground mb-10">
+            <div className="mb-10 space-y-5 font-body text-lg leading-relaxed text-cream/80">
               <p>
-                ¿Buscas una aventura diseñada a tu medida? Ofrecemos experiencias personalizadas a partir de <strong className="text-foreground font-semibold">Q650 (~US$85)</strong>, ideales para grupos pequeños de hasta 3 personas.
+                ¿Buscas una aventura diseñada a tu medida? Al ser personalizadas, no tienen un precio fijo: todo depende
+                de lo que quieras vivir. Partimos de un precio base{' '}
+                <strong className="font-semibold text-gold">a partir de Q1,000 (~US$130)</strong> y lo ajustamos a tu
+                itinerario, tus intereses y tu grupo.
               </p>
               <p>
-                Puedes adaptar cualquiera de nuestros itinerarios existentes o colaborar con nuestros guías locales para crear una ruta única basada en tus intereses específicos: ya sea fotografía, gastronomía profunda, senderismo exigente o inmersión cultural prolongada.
+                Puedes adaptar cualquiera de nuestros itinerarios o colaborar con nuestros guías locales para crear una
+                ruta única basada en tus intereses: fotografía, gastronomía profunda, senderismo o inmersión cultural.
               </p>
               <p>
-                <span className="flex items-center gap-2 text-foreground font-medium mb-1">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  Turismo Comunitario
+                <span className="mb-1 flex items-center gap-2 font-medium text-white">
+                  <Sparkles className="h-4 w-4 text-gold" />
+                  Turismo 100% comunitario y sostenible
                 </span>
-                El precio final varía según el grado de personalización, pero cada recorrido apoya directamente a las familias de Rabinal. Creemos en un turismo responsable que respeta y beneficia a nuestra comunidad.
+                Somos una tour operadora comunitaria: cada experiencia es guiada por y para la comunidad de Rabinal. El
+                precio final varía según el grado de personalización, pero cada recorrido apoya directamente a las
+                familias Achí y promueve un turismo responsable con nuestra tierra.
               </p>
             </div>
 
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-block w-full sm:w-auto"
+            <Link
+              to="/contacto"
+              state={{ interestedIn: 'Experiencia Personalizada' }}
+              className="btn-gold inline-flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 font-body text-base font-bold shadow-[0_12px_30px_rgba(224,169,84,0.36)] transition hover:-translate-y-0.5 sm:w-auto"
             >
-              <Button asChild size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-14 px-8 text-base shadow-md shadow-primary/20">
-                <Link to="/contacto" state={{ interestedIn: "Experiencia Personalizada" }}>
-                  Solicitar cotización personalizada
-                </Link>
-              </Button>
-            </motion.div>
+              Solicitar cotización personalizada
+              <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.2} />
+            </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

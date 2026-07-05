@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { Search, Trash2, Loader2, Inbox } from 'lucide-react';
+import { Search, Trash2, Inbox } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

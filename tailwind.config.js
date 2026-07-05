@@ -14,12 +14,30 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        ink: {
+          DEFAULT: "var(--ink)",
+          2: "var(--ink-2)",
+          3: "var(--ink-3)",
+        },
+        cream: "var(--cream)",
+        gold: {
+          DEFAULT: "var(--gold)",
+          2: "var(--gold-2)",
+          ink: "var(--gold-ink)",
+        },
+        jade: "var(--jade)",
+        whatsapp: "var(--whatsapp)",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -81,10 +99,40 @@ module.exports = {
             height: "0",
           },
         },
+        ezZoom: {
+          from: { transform: "scale(1.05)" },
+          to: { transform: "scale(1.18)" },
+        },
+        ezFloat: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-9px)" },
+        },
+        ezShimmer: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "200% 50%" },
+        },
+        ezGlow: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(224,169,84,0)" },
+          "50%": { boxShadow: "0 0 36px 4px rgba(224,169,84,0.35)" },
+        },
+        ezRise: {
+          from: { opacity: "0.001", transform: "translateY(28px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        ezPulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "ken-burns": "ezZoom 16s ease-in-out infinite alternate",
+        float: "ezFloat 5s ease-in-out infinite",
+        shimmer: "ezShimmer 6s linear infinite",
+        glow: "ezGlow 3s ease-in-out infinite",
+        rise: "ezRise 0.75s cubic-bezier(0.22,1,0.36,1) both",
+        "pulse-dot": "ezPulse 2s ease-in-out infinite",
       },
     },
   },

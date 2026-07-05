@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, ArrowDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 import { getUpcomingEvents } from '@/lib/eventsData.js';
 
 const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];

@@ -1,123 +1,103 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import GalleryImage from '@/components/GalleryImage';
+import PageHero from '@/components/immersive/PageHero.jsx';
+import CtaBand from '@/components/immersive/CtaBand.jsx';
+
+// Real client photos, categorized. aspect = orientación natural (evita recortes feos).
+const galleryImages = [
+  { src: '/images/pai-rabinal-paisaje.webp', alt: 'Paisaje del valle de Rabinal', category: 'Paisajes', aspect: '3/2' },
+  { src: '/images/art-artesanias-tradicionales.webp', alt: 'Artesanías tradicionales de Rabinal', category: 'Artesanías', aspect: '3/2' },
+  { src: '/images/cult-rabinal-achi-cultura.webp', alt: 'Cultura viva del pueblo Achí', category: 'Cultura', aspect: '3/2' },
+  { src: '/images/sit-centro-historico.webp', alt: 'Centro histórico de Rabinal', category: 'Sitios históricos', aspect: '3/2' },
+  { src: '/images/trad-fogata1.webp', alt: 'Tradiciones alrededor del fuego', category: 'Tradiciones', aspect: '3/4' },
+  { src: '/images/gas-gastronomia-boxbol.webp', alt: 'Boxbol, platillo tradicional', category: 'Gastronomía', aspect: '4/3' },
+  { src: '/images/pai-rio1.webp', alt: 'Río Negro y su naturaleza', category: 'Paisajes', aspect: '3/4' },
+  { src: '/images/art-jicaras.webp', alt: 'Jícaras de morro labradas a mano', category: 'Artesanías', aspect: '3/4' },
+  { src: '/images/cult-mask.webp', alt: 'Danza tradicional con máscaras', category: 'Cultura', aspect: '3/2' },
+  { src: '/images/sit-rabinal-panoramica.webp', alt: 'Vista panorámica de Rabinal', category: 'Sitios históricos', aspect: '3/2' },
+  { src: '/images/trad-fogata2.webp', alt: 'Noche de fogata comunitaria', category: 'Tradiciones', aspect: '3/4' },
+  { src: '/images/gas-equipo.webp', alt: 'Cocina tradicional en comunidad', category: 'Gastronomía', aspect: '4/3' },
+  { src: '/images/pai-rio2.webp', alt: 'Naturaleza y agua en Rabinal', category: 'Paisajes', aspect: '3/4' },
+  { src: '/images/art-jicaras2.webp', alt: 'Guacales y jícaras pintadas a mano', category: 'Artesanías', aspect: '3/4' },
+  { src: '/images/cult-marimba-personas.webp', alt: 'Marimba y comunidad', category: 'Cultura', aspect: '3/2' },
+  { src: '/images/sit-ruinas-naturaleza.webp', alt: 'Sitios y naturaleza de Rabinal', category: 'Sitios históricos', aspect: '3/2' },
+  { src: '/images/pai-rio3.webp', alt: 'Paisaje ribereño de Baja Verapaz', category: 'Paisajes', aspect: '3/4' },
+  { src: '/images/art-mascaras.webp', alt: 'Alcancías y guacales de morro', category: 'Artesanías', aspect: '3/4' },
+  { src: '/images/cult-miercoles-chilate.webp', alt: 'Miércoles de chilate', category: 'Cultura', aspect: '3/4' },
+  { src: '/images/trad-galeria-fotografica.webp', alt: 'Vida y tradición en Rabinal', category: 'Tradiciones', aspect: '3/2' },
+  { src: '/images/pai-rio4.webp', alt: 'Senderos y naturaleza', category: 'Paisajes', aspect: '3/4' },
+  { src: '/images/art-chinchines.webp', alt: 'Chinchines (sonajas) artesanales', category: 'Artesanías', aspect: '3/4' },
+  { src: '/images/cult-descubre-rabinal.webp', alt: 'Rabinal, cultura y tradición', category: 'Cultura', aspect: '3/2' },
+  { src: '/images/art-llaveros.webp', alt: 'Llaveros artesanales de morro', category: 'Artesanías', aspect: '3/4' },
+  { src: '/images/pai-explorar-rabinal.webp', alt: 'Explora los paisajes de Rabinal', category: 'Paisajes', aspect: '3/4' },
+];
+
+const categories = ['all', 'Paisajes', 'Cultura', 'Artesanías', 'Tradiciones', 'Gastronomía', 'Sitios históricos'];
 
 function GaleriaPage() {
   const [activeTab, setActiveTab] = useState('all');
 
-  const galleryImages = [
-    {
-      src: 'https://images.unsplash.com/photo-1678377918724-fed576b84f43?w=800&h=600&fit=crop',
-      alt: 'Paisaje montañoso de Rabinal',
-      category: 'Paisajes',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1608283968556-62806ba5e78b?w=800&h=600&fit=crop',
-      alt: 'Vista panorámica de Rabinal',
-      category: 'Paisajes',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1695938268873-0177bcbd5b8f?w=800&h=600&fit=crop',
-      alt: 'Iglesia colonial de Rabinal',
-      category: 'Iglesias',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1679100291488-bf9d9561f44c?w=800&h=600&fit=crop',
-      alt: 'Interior de iglesia histórica',
-      category: 'Iglesias',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1549970749-0119e4a5ad6e?w=800&h=600&fit=crop',
-      alt: 'Danza tradicional Achi',
-      category: 'Cultura',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1559738336-4cb29b3417b3?w=800&h=600&fit=crop',
-      alt: 'Artesanía tradicional',
-      category: 'Cultura',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1641897434555-720ccf02fe35?w=800&h=600&fit=crop',
-      alt: 'Campos de cultivo en Rabinal',
-      category: 'Tradiciones',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1617086952064-cbc12c3a08f0?w=800&h=600&fit=crop',
-      alt: 'Agricultura tradicional',
-      category: 'Tradiciones',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1701680607122-21ddff29c71a?w=800&h=600&fit=crop',
-      alt: 'Platillo tradicional de Rabinal',
-      category: 'Gastronomía',
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1698854632975-7e7d37ecac69?w=800&h=600&fit=crop',
-      alt: 'Comida típica guatemalteca',
-      category: 'Gastronomía',
-    },
-  ];
-
-  const categories = ['all', 'Paisajes', 'Cultura', 'Tradiciones', 'Iglesias', 'Gastronomía'];
-
-  const filteredImages = activeTab === 'all' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === activeTab);
+  const filteredImages = activeTab === 'all' ? galleryImages : galleryImages.filter((img) => img.category === activeTab);
 
   return (
     <>
       <Helmet>
         <title>Galería - Essence Rabinal</title>
-        <meta 
-          name="description" 
-          content="Explora nuestra galería de imágenes de Rabinal: paisajes, cultura, tradiciones, iglesias y gastronomía. Descubre la belleza de Baja Verapaz." 
-        />
+        <meta name="description" content="Explora nuestra galería de Rabinal: paisajes, cultura, artesanías, tradiciones, gastronomía y sitios históricos de Baja Verapaz." />
       </Helmet>
 
-      <div className="min-h-screen flex flex-col">
+      <div className="flex min-h-screen flex-col bg-ink">
         <Header />
 
-        <main className="flex-1 py-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Galería</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Descubre la belleza de Rabinal a través de nuestras imágenes
-              </p>
-            </motion.div>
+        <main className="flex-1">
+          <PageHero
+            breadcrumb={<>Inicio &nbsp;/&nbsp; <span className="text-gold">Galería</span></>}
+            title="Galería"
+            subtitle="Un vistazo a la belleza de Rabinal: paisajes, cultura, artesanías, tradiciones y sabores que te esperan."
+            image="/images/trad-galeria-fotografica.webp"
+          />
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-3 lg:grid-cols-6 mb-8">
-                {categories.map((category) => (
-                  <TabsTrigger key={category} value={category} className="capitalize">
-                    {category === 'all' ? 'Todas' : category}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-
-              <TabsContent value={activeTab} className="mt-0">
-                <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                  {filteredImages.map((image, index) => (
-                    <GalleryImage
-                      key={index}
-                      src={image.src}
-                      alt={image.alt}
-                      category={image.category}
-                    />
+          <section className="bg-ink py-16 md:py-24">
+            <div className="mx-auto max-w-[1340px] px-5 md:px-8">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="mx-auto mb-12 flex h-auto max-w-3xl flex-wrap justify-center gap-2 bg-transparent p-0">
+                  {categories.map((category) => (
+                    <TabsTrigger
+                      key={category}
+                      value={category}
+                      className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2 font-body text-sm capitalize text-cream/70 transition-colors hover:text-cream data-[state=active]:border-gold data-[state=active]:bg-gold data-[state=active]:text-gold-ink data-[state=active]:shadow-none"
+                    >
+                      {category === 'all' ? 'Todas' : category}
+                    </TabsTrigger>
                   ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+                </TabsList>
+
+                <TabsContent value={activeTab} className="mt-0">
+                  <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
+                    {filteredImages.map((image) => (
+                      <GalleryImage
+                        key={image.src}
+                        src={image.src}
+                        alt={image.alt}
+                        category={image.category}
+                        aspect={image.aspect}
+                      />
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </section>
+
+          <CtaBand
+            title="¿Te gustaría vivirlo en persona?"
+            subtitle="Cada rincón cobra vida junto a nuestros guías locales. Escríbenos y diseñamos contigo tu experiencia en Rabinal."
+            ctaLabel="Reserva tu experiencia"
+          />
         </main>
 
         <Footer />

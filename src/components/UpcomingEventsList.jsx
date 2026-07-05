@@ -12,8 +12,6 @@ function CompactEventCard({ event }) {
     setDays(Math.ceil(diff / (1000 * 60 * 60 * 24)));
   }, [event]);
 
-  const Icon = event.icon;
-
   return (
     <div className="flex items-center gap-4 p-4 bg-card border border-border/50 rounded-2xl hover:shadow-md transition-all duration-300 group">
       <div className="flex-shrink-0 w-14 h-14 bg-primary/10 rounded-xl flex flex-col items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">

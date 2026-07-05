@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { format } from 'date-fns';
 import { Search, Users, Download, Eye, Trash2, Mail } from 'lucide-react';
 import { Input } from '@/components/ui/input';

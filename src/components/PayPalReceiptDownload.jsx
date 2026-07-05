@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import pb from '@/lib/pocketbaseClient.js';
 import html2pdf from 'html2pdf.js';
-import { TOUR_PRICE_PER_PERSON } from '@/lib/pricingConstants.js';
 
-function PayPalReceiptDownload({ reservation, transactionId }) {
+function PayPalReceiptDownload({ reservation }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isEmailing, setIsEmailing] = useState(false);
 

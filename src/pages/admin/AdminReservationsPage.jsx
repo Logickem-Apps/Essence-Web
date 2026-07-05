@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Search, Inbox, Download, MoreHorizontal, FileEdit, Trash2 } from 'lucide-react';

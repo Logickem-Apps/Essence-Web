@@ -1,254 +1,315 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Info, Utensils, Landmark, Map, ArrowLeft, TreePine, Palette, HeartHandshake } from 'lucide-react';
+import { Info, Utensils, Landmark, ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageHero from '@/components/immersive/PageHero.jsx';
+import Reveal from '@/components/immersive/Reveal.jsx';
+import CtaBand from '@/components/immersive/CtaBand.jsx';
 
-function ExplorarPage() {
-  const [selectedCard, setSelectedCard] = useState(null);
-  
-  const explorarCards = [{
+const explorarCards = [
+  {
     id: 'informacion',
     icon: Info,
     title: 'Información de Rabinal',
-    color: 'bg-primary/10',
+    blurb: 'Geografía, historia y raíces del municipio maya Achí.',
+    image: '/images/sit-rabinal-panoramica.webp',
     content: {
       title: 'Rabinal, Baja Verapaz',
-      paragraphs: [
-        'Rabinal, Baja Verapaz, es un municipio ubicado en la región norte de Guatemala, a unos 28 km de la cabecera departamental (Salamá) y aproximadamente 175 km de la Ciudad de Guatemala. Se encuentra en una zona montañosa de la Sierra de Chuacús, con una altitud cercana a los 973 metros sobre el nivel del mar. Su territorio está conformado por la cabecera municipal y numerosas comunidades rurales, lo que lo convierte en una zona amplia y diversa geográficamente.',
-        'Considerado uno de los pueblos con raíces históricas más antiguas de la región, Rabinal es conocido por su rica herencia cultural maya Achí y por sus tradiciones ancestrales que se mantienen vivas hasta hoy. Es un municipio profundamente rico en cultura y tradiciones, las cuales forman parte esencial de su identidad local.'
-      ],
-      highlights: [
-        'Población aproximada: 47,283 habitantes', 
-        'Altitud: 973 metros sobre el nivel del mar', 
-        'Clima: Templado con temperaturas entre 18°C y 28°C', 
-        'Idiomas: Español y Achi (lengua maya)', 
-        'Fundación: Época precolombina, refundado en 1537'
-      ],
-      image: 'https://horizons-cdn.hostinger.com/d3fcc168-8217-40d2-89ff-4389dfaaf8fa/85004050afca35c845ba1765b19b2679.png',
-      imageAlt: 'Panorámica aérea de Rabinal, Baja Verapaz - vista completa con iglesia blanca, mercado colorido, montañas, atardecer y comunidad'
-    }
-  }, {
-    id: 'cultura',
-    icon: Landmark,
-    title: 'Cultura',
-    color: 'bg-secondary/10',
-    content: {
-      title: 'Patrimonio Cultural de Rabinal',
-      description: 'Rabinal es hogar de una de las culturas mayas más vibrantes de Guatemala. El pueblo Achi ha preservado sus tradiciones, danzas, música y ceremonias ancestrales.',
+      description: 'Rabinal es un municipio del departamento de Baja Verapaz, en el corazón de Guatemala. Enclavado en la Sierra de Chuacús, es uno de los pueblos más antiguos y culturalmente ricos de la región, cuna del pueblo maya Achí.',
       sections: [
         {
-          subtitle: 'Danzas y Tradiciones de Rabinal',
+          subtitle: 'Ubicación y geografía',
           paragraphs: [
-            'Rabinal es un pueblo con una cultura viva, donde las tradiciones ancestrales se manifiestan a través de la música y la danza. Los instrumentos tradicionales como el tambor, el pito, el tun, el adufe, la chirimía y la marimba sencilla resuenan en cada celebración, manteniendo el pulso de la identidad local.',
-            'El municipio es reconocido por albergar más de 20 danzas tradicionales, cada una con su propio significado histórico, espiritual y social, convirtiendo a Rabinal en un verdadero epicentro del folclore guatemalteco.'
+            'Rabinal se asienta en un valle rodeado de montañas fértiles dentro de la Sierra de Chuacús, a unos 973 metros sobre el nivel del mar. Su clima es tropical (cálido y templado), lo que favorece una agricultura variada durante todo el año.',
+            'El municipio abarca una extensión aproximada de 504 km² y una densidad cercana a los 89 habitantes por km². Su territorio se organiza en la cabecera municipal, 28 aldeas y unos 50 caseríos, lo que lo convierte en una zona amplia y geográficamente diversa.'
           ]
         },
         {
-          subtitle: 'La Danza Drama Rabinal Achí o Xajoj Tum',
+          subtitle: 'Historia y fundación',
           paragraphs: [
-            'Declarada Obra Maestra del Patrimonio Oral e Inmaterial de la Humanidad por la UNESCO el 25 de noviembre de 2005, el Rabinal Achí es una joya invaluable de la cultura maya.',
-            'Esta danza drama prehispánica narra el conflicto histórico y político entre los señoríos de los Rabinaleb y los K\'iche\', destacando temas de honor, lealtad y justicia a través de diálogos poéticos, música y movimientos coreográficos ancestrales.'
+            'Con raíces prehispánicas profundas, el asentamiento maya Achí fue reorganizado durante la evangelización pacífica de las Verapaces liderada por los frailes dominicos. Rabinal fue fundado como pueblo colonial el 25 de enero de 1538 por Fray Bartolomé de las Casas y Fray Pedro de Angulo, bajo el nombre de San Pablo Rabinal.',
+            'Fue uno de los primeros pueblos establecidos en la antigua "Tierra de Guerra", región que más tarde pasó a llamarse Verapaz precisamente por haberse sometido de forma pacífica.'
           ]
         },
         {
-          subtitle: 'Personajes Principales',
+          subtitle: 'Gente, idioma y economía',
           paragraphs: [
-            'La representación del Rabinal Achí cobra vida a través de personajes emblemáticos, cada uno con un rol fundamental en el desarrollo de la narrativa histórica:'
-          ],
-          list: [
-            { title: 'Rabinal Achí', description: 'Hijo del soberano Job Toj.' },
-            { title: 'K\'iche Achí', description: 'Guerrero, cazador e hijo de Balam Achí.' },
-            { title: 'Job Toj', description: 'Soberano de los Rabinaleb.' },
-            { title: 'Ixoq Muy', description: 'Sirviente en la corte con traje cobanero.' },
-            { title: 'U Chuch Q\'uq\' U Chuch Raxón', description: 'Esposa de Rabinal Achí (madre de pájaros verdes).' },
-            { title: 'Guerreros Águila y Jaguar', description: 'Encargados de ejecutar a K\'iche Achí.' }
+            'Rabinal es hogar del pueblo maya Achí, con una población que supera los 45,000 habitantes. Se hablan el español y el achí, lengua maya que se mantiene viva en la vida cotidiana y en las ceremonias.',
+            'Sus tierras fértiles y abundante agua sustentan cultivos de maíz, frijol y caña de azúcar, y el municipio es especialmente reconocido por sus naranjas. La artesanía es otro emblema: los rabinalenses son famosos por tallar y pintar jícaras hechas del fruto del morro (Crescentia alata), decoradas con vivos colores amarillo, negro y rojo, además de su cerámica tradicional.'
           ]
         }
       ],
-      image: 'https://horizons-cdn.hostinger.com/d3fcc168-8217-40d2-89ff-4389dfaaf8fa/3ed8487af3cb7b146bbdc008f27f7b48.jpg',
-      imageAlt: 'Representación del Rabinal Achí con danzarines en trajes tradicionales coloridos, coronas de flores vibrantes y adornos dorados'
+      highlights: [
+        'Población: más de 45,000 habitantes',
+        'Extensión: aproximadamente 504 km²',
+        'Altitud: 973 metros sobre el nivel del mar',
+        'Idiomas: español y achí (lengua maya)',
+        'Fundado el 25 de enero de 1538 como San Pablo Rabinal',
+        'Organizado en 28 aldeas y unos 50 caseríos'
+      ],
+      imageAlt: 'Panorámica de Rabinal, Baja Verapaz'
     }
-  }, {
+  },
+  {
+    id: 'cultura',
+    icon: Landmark,
+    title: 'Cultura',
+    blurb: 'El Rabinal Achí, danzas ancestrales y cofradías vivas.',
+    image: '/images/cult-rabinal-achi-cultura.webp',
+    content: {
+      title: 'Patrimonio Cultural de Rabinal',
+      description: 'Rabinal es uno de los epicentros del folclore guatemalteco. El pueblo Achí ha preservado por siglos sus danzas, música, ceremonias y cofradías, manteniendo viva una identidad cultural única en el país.',
+      sections: [
+        {
+          subtitle: 'El Rabinal Achí (Xajoj Tun)',
+          paragraphs: [
+            'El Rabinal Achí, también llamado Xajoj Tun ("baile del tun"), es un drama dinástico maya del siglo XV que combina teatro, danza de máscaras y música. Narra el conflicto entre los señoríos de los Rabinaleb\' y los K\'iche\', a través de sus protagonistas: el Rabinal Achí y el K\'iche Achí, este último capturado y juzgado por intentar raptar a los hijos de los Rabinaleb\'.',
+            'La UNESCO lo proclamó Obra Maestra del Patrimonio Oral e Inmaterial de la Humanidad en 2005 y lo inscribió en la Lista Representativa del Patrimonio Cultural Inmaterial en 2008. Desde la época colonial se representa cada 25 de enero, día de San Pablo, organizado por las cofradías locales.'
+          ]
+        },
+        {
+          subtitle: 'Tierra de danzas',
+          paragraphs: [
+            'Rabinal es el municipio con el mayor número de danzas tradicionales de Guatemala: se han documentado alrededor de 36, aunque cerca de 17 se han ido perdiendo con el tiempo.',
+            'Además del Rabinal Achí, destacan danzas como Los Negritos, la Pazca y el Baile de la Conquista. Los instrumentos ancestrales —como el tun, la chirimía y la marimba— marcan el pulso de cada celebración.'
+          ]
+        },
+        {
+          subtitle: 'Cofradías y fe',
+          paragraphs: [
+            'La vida ceremonial de Rabinal gira en torno a sus cofradías, que resguardan las imágenes sagradas y organizan las festividades. El municipio celebra dos grandes ferias: la de su patrono San Pablo Apóstol, el 25 de enero, y la de la Virgen del Patrocinio, el 15 de noviembre.'
+          ]
+        },
+        {
+          subtitle: 'Personajes del Rabinal Achí',
+          paragraphs: [
+            'La representación cobra vida a través de personajes emblemáticos, cada uno con un rol fundamental en la narrativa:'
+          ],
+          list: [
+            { title: 'Rabinal Achí', description: 'Guerrero y héroe de los Rabinaleb\', hijo del soberano Job Toj.' },
+            { title: 'K\'iche Achí', description: 'Guerrero rival de los K\'iche\', capturado por los Rabinaleb\'.' },
+            { title: 'Job Toj', description: 'Soberano y señor de los Rabinaleb\'.' },
+            { title: 'Ixoq Mun', description: 'Sirvienta de la corte.' },
+            { title: 'Guerreros Águila y Jaguar', description: 'Guerreros ceremoniales de la corte.' }
+          ]
+        }
+      ],
+      highlights: [
+        'Rabinal Achí: Patrimonio de la Humanidad (UNESCO, 2005; inscrito en 2008)',
+        'Se representa cada 25 de enero, día de San Pablo',
+        'Cerca de 36 danzas tradicionales documentadas',
+        'Instrumentos ancestrales: tun, chirimía y marimba',
+        'Rica vida ceremonial organizada por las cofradías'
+      ],
+      imageAlt: 'Representación del Rabinal Achí'
+    }
+  },
+  {
     id: 'gastronomia',
     icon: Utensils,
     title: 'Gastronomía',
-    color: 'bg-accent/20',
+    blurb: 'Pinol, boxbol, chilate y los sabores de raíz maya.',
+    image: '/images/gas-gastronomia-boxbol.webp',
     content: {
       title: 'Sabores Tradicionales de Rabinal',
-      description: 'La gastronomía de Rabinal combina ingredientes locales con recetas ancestrales, creando una experiencia culinaria única que refleja la identidad del pueblo Achi.',
-      detailedParagraph: 'La gastronomía de Rabinal es un vibrante testimonio de la herencia cultural viva de Baja Verapaz, donde cada receta narra historias ancestrales a través de sabores profundamente auténticos. Al visitar este rincón guatemalteco, el paladar se deleita con platillos emblemáticos como el reconfortante pinol, el tradicional Boxbol y la variedad de tamales y tamalitos, cuya elaboración artesanal es reflejo de una tradición transmitida de generación en generación. Esta experiencia culinaria se eleva al acompañarla con su oferta de bebidas rituales y reconfortantes, desde el emblemático chilate —la bebida ceremonial por excelencia— hasta los diversos atoles como el shuco, preparado con fermentos de maíz de colores, o el aromático atol de tres cocimientos. Degustar estos manjares es, sin duda, la forma más genuina de conectar con el corazón y la hospitalidad de la tierra de Rabinal.',
-      highlights: [
-        'Boxbol: Preparación ancestral envuelta en hoja de maxán, símbolo de la tradición culinaria local',
-        'Pinol: Bebida nutritiva a base de maíz tostado, profundamente arraigada en la identidad Achí',
-        'Chilate: Bebida ceremonial por excelencia, ligada a rituales y costumbres milenarias',
-        'Atoles tradicionales: Variedad de bebidas calientes como el shuco y el de tres cocimientos, elaboradas con técnicas heredadas',
-        'Tamales y tamalitos: Expresión de la cocina artesanal, transmitida de generación en generación'
+      description: 'La cocina de Rabinal es un testimonio vivo de la herencia maya Achí: recetas ancestrales, ingredientes locales y bebidas ceremoniales que se transmiten de generación en generación.',
+      sections: [
+        {
+          subtitle: 'Pinol (K\'aj)',
+          paragraphs: [
+            'El Pinol de Rabinal, o K\'aj, es un platillo prehispánico de carácter ceremonial, tradicionalmente preparado por las cofradías. Consiste en carne —usualmente pollo— cocida en un caldo espesado con maíz tostado y molido, sazonado con especias.',
+            'Su valor cultural es tal que la técnica de elaboración del Pinol de Rabinal fue declarada Patrimonio Cultural Intangible de la Nación en 2015.'
+          ]
+        },
+        {
+          subtitle: 'Boxbol',
+          paragraphs: [
+            'El boxbol (o boshbol) es un platillo elaborado con masa de maíz envuelta en hojas tiernas de ayote (chilacayote). Se acompaña de una salsa de pepitoria (semilla de ayote molida) y miltomate, resultando en un bocado sencillo, nutritivo y profundamente tradicional.'
+          ]
+        },
+        {
+          subtitle: 'Chilate',
+          paragraphs: [
+            'El chilate es la bebida ceremonial por excelencia de Rabinal. Fusiona la riqueza del maíz nixtamalizado —cocido con ceniza— y el cacao ancestral, y se sirve tradicionalmente en jícara. En el municipio, cada "Miércoles de Chilate" se convierte en una ceremonia viva alrededor de esta bebida milenaria.'
+          ]
+        },
+        {
+          subtitle: 'Atoles y dulces tradicionales',
+          paragraphs: [
+            'La oferta se completa con una variedad de atoles y dulces heredados: el atol de tres cocimientos, los táscals de maíz endulzados con rapadura y los totopostes dulces, entre otras preparaciones artesanales.'
+          ]
+        }
       ],
-      image: 'https://horizons-cdn.hostinger.com/d3fcc168-8217-40d2-89ff-4389dfaaf8fa/efeb961d1ecc28c5e45bdce748cfda86.jpg',
-      imageAlt: 'Preparación tradicional de Boxbol envuelto en hoja de maxán, mostrando manos de un artesano local preparando el platillo en un ambiente comunitario con textiles tradicionales de colores vibrantes'
+      highlights: [
+        'Pinol (K\'aj): técnica declarada Patrimonio Cultural Intangible de la Nación (2015)',
+        'Boxbol: masa de maíz en hoja de ayote con pepitoria y miltomate',
+        'Chilate: bebida ceremonial de maíz y cacao servida en jícara',
+        'Atol de tres cocimientos, táscals y totopostes dulces',
+        'Ingredientes locales y recetas de raíz maya Achí'
+      ],
+      imageAlt: 'Preparación tradicional de Boxbol'
     }
-  }];
+  }
+];
+
+function ExplorarPage() {
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  // Al alternar entre la grilla y el detalle, reinicia el scroll al inicio para que la vista no quede a medias.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [selectedCard]);
 
   return (
     <>
       <Helmet>
         <title>Explorar Rabinal - Essence Rabinal</title>
-        <meta name="description" content="Descubre información sobre Rabinal, su cultura, gastronomía y tours disponibles. Conoce la rica herencia del pueblo Achi." />
+        <meta name="description" content="Descubre información sobre Rabinal, su cultura, gastronomía y tradiciones. Conoce la rica herencia del pueblo maya Achí en Baja Verapaz, Guatemala." />
       </Helmet>
 
-      <div className="min-h-screen flex flex-col">
+      <div className="flex min-h-screen flex-col bg-ink">
         <Header />
 
-        <main className="flex-1 py-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {!selectedCard ? (
-              <>
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  transition={{ duration: 0.6 }} 
-                  className="text-center mb-12"
-                >
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4">Explora Rabinal</h1>
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                    Descubre todo lo que Rabinal tiene para ofrecer a través de su cultura, historia y experiencias únicas.
-                  </p>
-                </motion.div>
+        <main className="flex-1">
+          {!selectedCard ? (
+            <>
+              <PageHero
+                breadcrumb={<>Inicio &nbsp;/&nbsp; <span className="text-gold">Explorar</span></>}
+                title="Explora Rabinal"
+                subtitle="Conoce la información, la cultura viva y la gastronomía ancestral de nuestro municipio en la Sierra de Chuacús."
+                image="/images/pai-explorar-rabinal.webp"
+              />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                  {explorarCards.map((card, index) => (
-                    <motion.div 
-                      key={card.id} 
-                      initial={{ opacity: 0, y: 20 }} 
-                      animate={{ opacity: 1, y: 0 }} 
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <Card 
-                        className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full" 
-                        onClick={() => setSelectedCard(card)}
-                      >
-                        <CardHeader>
-                          <div className={`w-16 h-16 ${card.color} rounded-xl flex items-center justify-center mb-4`}>
-                            <card.icon className="w-8 h-8 text-primary" />
+              <section className="bg-ink py-16 md:py-24">
+                <div className="mx-auto max-w-[1340px] px-5 md:px-8">
+                  <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+                    <div className="mb-3 font-body text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                      Portal Turístico
+                    </div>
+                    <h2 className="font-display text-3xl font-bold text-white md:text-4xl">¿Qué quieres descubrir?</h2>
+                    <p className="mt-4 font-body leading-relaxed text-cream/65">
+                      Elige una categoría y sumérgete en la esencia de Rabinal.
+                    </p>
+                  </Reveal>
+
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                    {explorarCards.map((card, index) => (
+                      <Reveal key={card.id} delay={index * 0.08}>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedCard(card)}
+                          className="ez-card ez-lift group relative block h-[420px] w-full overflow-hidden rounded-[20px] border border-white/[0.08] text-left hover:-translate-y-1.5 hover:border-gold/50"
+                        >
+                          <div
+                            className="ez-zoom absolute inset-0 bg-cover bg-center"
+                            style={{ backgroundImage: `url('${card.image}')` }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,11,9,0.96)] via-[rgba(8,11,9,0.35)] to-[rgba(8,11,9,0.15)]" />
+                          <div className="ez-glass absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-xl text-gold">
+                            <card.icon className="h-6 w-6" />
                           </div>
-                          <CardTitle className="text-2xl">{card.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground">
-                            Descubre más información
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
+                          <div className="absolute inset-x-0 bottom-0 p-6">
+                            <h3 className="font-display text-2xl font-semibold text-white">{card.title}</h3>
+                            <p className="mt-2 font-body text-sm leading-snug text-cream/75">{card.blurb}</p>
+                            <span className="mt-4 inline-flex items-center gap-1.5 font-body text-sm font-semibold text-gold">
+                              Descubre más
+                              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={2.2} />
+                            </span>
+                          </div>
+                        </button>
+                      </Reveal>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            </>
+          ) : (
+            <section className="bg-ink py-10 md:py-14">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mx-auto max-w-4xl px-5 md:px-8"
+              >
+                <button
+                  type="button"
+                  onClick={() => setSelectedCard(null)}
+                  className="mb-6 inline-flex items-center gap-2 font-body text-sm font-medium text-cream/70 transition-colors hover:text-gold"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Volver a Explorar
+                </button>
+
+                <div className="relative isolate h-[300px] overflow-hidden rounded-[24px] border border-white/[0.08] md:h-[420px]">
+                  <img
+                    src={selectedCard.content.image || selectedCard.image}
+                    alt={selectedCard.content.imageAlt || selectedCard.content.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,11,9,0.95)] via-[rgba(8,11,9,0.35)] to-[rgba(8,11,9,0.1)]" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-9">
+                    <div className="ez-glass mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-gold">
+                      <selectedCard.icon className="h-6 w-6" />
+                    </div>
+                    <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-5xl">
+                      {selectedCard.content.title}
+                    </h2>
+                  </div>
+                </div>
+
+                <p className="mt-8 font-body text-xl leading-relaxed text-cream/85">
+                  {selectedCard.content.description}
+                </p>
+
+                <div className="mt-10 space-y-10">
+                  {selectedCard.content.sections.map((section, idx) => (
+                    <div key={idx} className="space-y-4">
+                      <h3 className="relative pl-4 font-display text-2xl font-semibold text-white before:absolute before:bottom-1 before:left-0 before:top-1 before:w-1 before:rounded-full before:bg-gold">
+                        {section.subtitle}
+                      </h3>
+                      {section.paragraphs && section.paragraphs.map((p, pIdx) => (
+                        <p key={pIdx} className="font-body text-lg leading-relaxed text-cream/70">{p}</p>
+                      ))}
+                      {section.list && (
+                        <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          {section.list.map((item, itemIdx) => (
+                            <li key={itemIdx} className="ez-glass ez-lift rounded-xl p-4 hover:border-gold/40">
+                              <strong className="mb-1 block font-display font-semibold text-white">{item.title}</strong>
+                              <span className="font-body text-sm leading-relaxed text-cream/65">{item.description}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   ))}
                 </div>
-              </>
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.5 }} 
-                className="max-w-4xl mx-auto"
-              >
-                <Button variant="ghost" onClick={() => setSelectedCard(null)} className="mb-6">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Volver
-                </Button>
 
-                <Card className="overflow-hidden border-none shadow-lg">
-                  <div className="aspect-video overflow-hidden bg-muted">
-                    <img 
-                      src={selectedCard.content.image} 
-                      alt={selectedCard.content.imageAlt || selectedCard.content.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
-                    />
+                {selectedCard.content.highlights && (
+                  <div className="mt-10">
+                    <h3 className="mb-5 font-display text-xl font-semibold text-white">Datos destacados</h3>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {selectedCard.content.highlights.map((h, i) => (
+                        <div key={i} className="ez-glass flex items-start gap-3 rounded-xl p-4">
+                          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-gold/20">
+                            <Check className="h-3.5 w-3.5 text-gold" strokeWidth={2.6} />
+                          </span>
+                          <span className="font-body text-sm leading-relaxed text-cream/80">{h}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="p-6 sm:p-8 md:p-10">
-                    <CardHeader className="px-0 pt-0">
-                      <div className={`w-16 h-16 ${selectedCard.color} rounded-xl flex items-center justify-center mb-6`}>
-                        <selectedCard.icon className="w-8 h-8 text-primary" />
-                      </div>
-                      <CardTitle className="text-3xl md:text-4xl font-bold tracking-tight">
-                        {selectedCard.content.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="px-0 pb-0 space-y-8">
-                      
-                      {selectedCard.content.paragraphs && (
-                        <div className="space-y-6">
-                          {selectedCard.content.paragraphs.map((paragraph, index) => (
-                            <p key={index} className="text-lg text-muted-foreground leading-relaxed">
-                              {paragraph}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-
-                      {!selectedCard.content.paragraphs && !selectedCard.content.sections && selectedCard.content.description && (
-                        <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-                          {selectedCard.content.description}
-                        </p>
-                      )}
-
-                      {selectedCard.content.detailedParagraph && (
-                        <div className="bg-gradient-to-br from-accent/5 to-primary/5 rounded-2xl p-6 sm:p-8 border border-accent/10">
-                          <p className="text-lg text-muted-foreground leading-relaxed italic">
-                            {selectedCard.content.detailedParagraph}
-                          </p>
-                        </div>
-                      )}
-
-                      {selectedCard.content.sections && (
-                        <div className="space-y-10 mt-8">
-                          {selectedCard.content.sections.map((section, idx) => (
-                            <div key={idx} className="space-y-4">
-                              <h3 className="text-2xl font-semibold text-foreground border-b border-border pb-2">
-                                {section.subtitle}
-                              </h3>
-                              {section.paragraphs && section.paragraphs.map((p, pIdx) => (
-                                <p key={pIdx} className="text-lg text-muted-foreground leading-relaxed">
-                                  {p}
-                                </p>
-                              ))}
-                              {section.list && (
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                                  {section.list.map((item, itemIdx) => (
-                                    <li key={itemIdx} className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                                      <strong className="block text-foreground font-semibold mb-1">{item.title}</strong>
-                                      <span className="text-muted-foreground text-sm leading-relaxed">{item.description}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {selectedCard.content.highlights && (
-                        <div className="bg-muted/50 rounded-2xl p-6 sm:p-8 mt-8">
-                          <h3 className="text-xl font-semibold mb-6 text-foreground">Aspectos Destacados</h3>
-                          <ul className="space-y-4">
-                            {selectedCard.content.highlights.map((highlight, index) => (
-                              <li key={index} className="flex items-start gap-4">
-                                <div className="w-2 h-2 bg-primary rounded-full mt-2.5 flex-shrink-0 shadow-sm"></div>
-                                <span className="text-muted-foreground leading-relaxed">{highlight}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                    </CardContent>
-                  </div>
-                </Card>
+                )}
               </motion.div>
-            )}
-          </div>
+            </section>
+          )}
+
+          <CtaBand
+            title="¿Quieres vivir esto de cerca?"
+            subtitle="Nuestros guías locales de la comunidad Achí te llevan a descubrir Rabinal con la profundidad que solo quien lo habita puede ofrecer."
+            ctaLabel="Reserva con un guía local"
+          />
         </main>
 
         <Footer />

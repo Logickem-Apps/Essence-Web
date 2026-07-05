@@ -25,15 +25,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    try {
-      const authData = await pb.collection('users').authWithPassword(email, password, {
-        $autoCancel: false,
-      });
-      setCurrentUser(authData.record);
-      return authData;
-    } catch (error) {
-      throw error;
-    }
+    const authData = await pb.collection('users').authWithPassword(email, password, {
+      $autoCancel: false,
+    });
+    setCurrentUser(authData.record);
+    return authData;
   };
 
   const logout = () => {

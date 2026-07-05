@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, MessageCircle, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/ContactForm';
 import TestimonialCard from '@/components/TestimonialCard';
+import PageHero from '@/components/immersive/PageHero.jsx';
+import Reveal from '@/components/immersive/Reveal.jsx';
+import { socials } from '@/lib/socials.jsx';
 import pb from '@/lib/pocketbaseClient';
+
+// En Contacto no mostramos WhatsApp aquí (ya está el formulario y el botón flotante).
+const socialLinks = socials.filter((s) => s.label !== 'WhatsApp');
+
+const contactInfo = [
+  { icon: MapPin, title: 'Ubicación', content: 'Rabinal, Baja Verapaz, Guatemala' },
+  { icon: Phone, title: 'Teléfono', content: '+502 3850 6731', href: 'tel:+50238506731' },
+  { icon: Mail, title: 'Email', content: 'info@essencerabinal.com', href: 'mailto:info@essencerabinal.com' },
+  { icon: Clock, title: 'Horario', content: 'Lunes a Domingo · 8:00 AM – 6:00 PM' },
+];
+
+const trustPoints = [
+  'Respuesta rápida por WhatsApp',
+  'Guías locales de la comunidad Achí',
+  'Turismo 100% comunitario y sostenible',
+];
 
 function ContactoPage() {
   const location = useLocation();
@@ -17,167 +34,131 @@ function ContactoPage() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const records = await pb.collection('testimonials').getFullList({
-          sort: '-created',
-          $autoCancel: false,
-        });
+        const records = await pb.collection('testimonials').getFullList({ sort: '-created', $autoCancel: false });
         setTestimonials(records);
       } catch (error) {
         console.error('Error fetching testimonials:', error);
       }
     };
-
     fetchTestimonials();
   }, []);
 
-  const selectedTour = location.state?.selectedTour || '';
-
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: 'Dirección',
-      content: 'Rabinal, Baja Verapaz, Guatemala',
-    },
-    {
-      icon: Phone,
-      title: 'Teléfono',
-      content: '+502 1234 5678',
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      content: 'info@essencerabinal.com',
-    },
-    {
-      icon: Clock,
-      title: 'Horario',
-      content: 'Lunes a Domingo: 8:00 AM - 6:00 PM',
-    },
-  ];
+  const selectedTour = location.state?.selectedTour || location.state?.interestedIn || '';
 
   return (
     <>
       <Helmet>
         <title>Contacto - Essence Rabinal</title>
-        <meta 
-          name="description" 
-          content="Contáctanos para reservar tu tour en Rabinal. Estamos disponibles por WhatsApp, teléfono y email. Respuesta rápida garantizada." 
-        />
+        <meta name="description" content="Contáctanos para reservar tu tour en Rabinal. Estamos disponibles por WhatsApp, teléfono y email. Respuesta rápida garantizada." />
       </Helmet>
 
-      <div className="min-h-screen flex flex-col">
+      <div className="flex min-h-screen flex-col bg-ink">
         <Header />
 
-        <main className="flex-1 py-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Contáctanos</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Estamos aquí para ayudarte a planificar tu experiencia perfecta en Rabinal
-              </p>
-            </motion.div>
+        <main className="flex-1">
+          <PageHero
+            breadcrumb={<>Inicio &nbsp;/&nbsp; <span className="text-gold">Contacto</span></>}
+            title="Contáctanos"
+            subtitle="Estamos aquí para ayudarte a planificar tu experiencia perfecta en Rabinal."
+            image="/images/pai-rabinal-panoramica-alt.webp"
+          />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-16">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Envíanos un mensaje</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ContactForm initialTourInterest={selectedTour} />
-                  </CardContent>
-                </Card>
-              </motion.div>
+          <section className="bg-ink py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-5 md:px-8">
+              <div className="mb-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                {/* Form */}
+                <Reveal className="ez-glass rounded-[20px] p-7 md:p-9">
+                  <h2 className="mb-6 font-display text-2xl font-bold text-white">Envíanos un mensaje</h2>
+                  <ContactForm initialTourInterest={selectedTour} />
+                </Reveal>
 
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="space-y-6"
-              >
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Información de contacto</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {contactInfo.map((info, index) => (
-                      <div key={index} className="flex items-start gap-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <info.icon className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-semibold mb-1">{info.title}</p>
-                          <p className="text-muted-foreground">{info.content}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-primary text-primary-foreground">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-primary-foreground/10 rounded-lg flex items-center justify-center">
-                        <MessageCircle className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-lg">¿Prefieres WhatsApp?</p>
-                        <p className="opacity-90">Respuesta inmediata</p>
-                      </div>
+                {/* Info + WhatsApp */}
+                <Reveal delay={0.12} className="space-y-6">
+                  <div className="ez-glass rounded-[20px] p-7 md:p-9">
+                    <h2 className="mb-6 font-display text-2xl font-bold text-white">Información de contacto</h2>
+                    <div className="space-y-2">
+                      {contactInfo.map((info) => {
+                        const Row = (
+                          <>
+                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-gold/25 to-jade/20 text-gold">
+                              <info.icon className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <p className="mb-0.5 font-display font-semibold text-white">{info.title}</p>
+                              <p className="font-body text-cream/70">{info.content}</p>
+                            </div>
+                          </>
+                        );
+                        return info.href ? (
+                          <a
+                            key={info.title}
+                            href={info.href}
+                            className="group flex items-start gap-4 rounded-xl p-2 transition-colors hover:bg-white/[0.04]"
+                          >
+                            {Row}
+                          </a>
+                        ) : (
+                          <div key={info.title} className="flex items-start gap-4 p-2">
+                            {Row}
+                          </div>
+                        );
+                      })}
                     </div>
-                    <a
-                      href="https://wa.me/50212345678"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full bg-primary-foreground text-primary text-center py-3 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200"
-                    >
-                      Abrir WhatsApp
-                    </a>
-                  </CardContent>
-                </Card>
-              </motion.div>
+
+                    <div className="mt-6 space-y-2.5 border-t border-white/10 pt-6">
+                      {trustPoints.map((point) => (
+                        <div key={point} className="flex items-center gap-3">
+                          <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-jade/20 text-jade">
+                            <Check className="h-3 w-3" strokeWidth={3} />
+                          </span>
+                          <span className="font-body text-sm text-cream/75">{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-[20px] bg-gradient-to-br from-gold/[0.18] to-jade/10 p-7 md:p-9">
+                    <p className="font-display text-lg font-semibold text-white">Síguenos en redes</p>
+                    <p className="mt-1 font-body text-cream/70">
+                      Fotos, novedades y las tradiciones de Rabinal en tiempo real.
+                    </p>
+                    <div className="mt-5 flex gap-3">
+                      {socialLinks.map(({ href, label, Icon }) => (
+                        <a
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={label}
+                          className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-cream transition-colors hover:bg-gold hover:text-gold-ink"
+                        >
+                          <Icon className="h-5 w-5" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {testimonials.length > 0 && (
+                <section>
+                  <Reveal className="mb-8 text-center">
+                    <h2 className="mb-4 font-display text-3xl font-bold text-white">Lo que dicen nuestros clientes</h2>
+                    <p className="font-body text-cream/65">
+                      Experiencias reales de viajeros que han descubierto Rabinal con nosotros
+                    </p>
+                  </Reveal>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {testimonials.slice(0, 3).map((testimonial, index) => (
+                      <Reveal key={testimonial.id} delay={index * 0.1}>
+                        <TestimonialCard testimonial={testimonial} />
+                      </Reveal>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
-
-            {testimonials.length > 0 && (
-              <section className="max-w-6xl mx-auto">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-8"
-                >
-                  <h2 className="text-3xl font-bold mb-4">Lo que dicen nuestros clientes</h2>
-                  <p className="text-muted-foreground">
-                    Experiencias reales de viajeros que han descubierto Rabinal con nosotros
-                  </p>
-                </motion.div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {testimonials.slice(0, 3).map((testimonial, index) => (
-                    <motion.div
-                      key={testimonial.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <TestimonialCard testimonial={testimonial} />
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
+          </section>
         </main>
 
         <Footer />

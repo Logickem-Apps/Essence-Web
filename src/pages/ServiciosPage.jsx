@@ -1,145 +1,109 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { motion } from 'framer-motion';
-import { Users, Utensils, Home, Calendar, Sparkles } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { Users, Utensils, Home, Calendar, Sparkles, MapPin, Leaf, HeartHandshake, Shield, Compass, Gem } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ServiceCard from '@/components/ServiceCard';
+import PageHero from '@/components/immersive/PageHero.jsx';
+import Reveal from '@/components/immersive/Reveal.jsx';
+import SectionHeading from '@/components/immersive/SectionHeading.jsx';
+import CtaBand from '@/components/immersive/CtaBand.jsx';
+
+const services = [
+  { icon: Users, title: 'Guías Profesionales', description: 'Guías locales certificados con profundo conocimiento de la cultura, historia y tradiciones de Rabinal.' },
+  { icon: Utensils, title: 'Comidas y Gastronomía', description: 'Degustación de platillos tradicionales preparados por familias locales. Experiencias culinarias auténticas con ingredientes de la región.' },
+  { icon: Home, title: 'Asistencia de Alojamiento', description: 'Recomendaciones y coordinación de hospedaje en hoteles locales y casas de familia. Opciones para todos los presupuestos.' },
+  { icon: Calendar, title: 'Coordinación de Grupos', description: 'Organización completa para grupos grandes, incluyendo escuelas, empresas y organizaciones. Itinerarios personalizados según necesidades.' },
+  { icon: Sparkles, title: 'Experiencias Personalizadas', description: 'Diseñamos tours a medida según tus intereses: fotografía, artesanía, naturaleza, espiritualidad maya o combinaciones únicas.' },
+];
+
+const reasons = [
+  { icon: MapPin, title: 'Experiencia local', text: 'Somos nativos de Rabinal, con un conocimiento profundo de nuestra tierra y su gente.' },
+  { icon: Leaf, title: 'Turismo responsable', text: 'Prácticas sostenibles que benefician directamente a las comunidades Achí.' },
+  { icon: HeartHandshake, title: 'Atención personalizada', text: 'Grupos pequeños para vivir experiencias más íntimas y cercanas.' },
+  { icon: Compass, title: 'Flexibilidad', text: 'Adaptamos cada tour a tus intereses, tiempos y necesidades.' },
+  { icon: Shield, title: 'Seguridad', text: 'Protocolos de seguridad y guías comunitarios certificados.' },
+  { icon: Gem, title: 'Autenticidad', text: 'Experiencias reales, vividas junto a la comunidad, no escenificadas.' },
+];
 
 function ServiciosPage() {
-  const services = [
-    {
-      icon: Users,
-      title: 'Guías Profesionales',
-      description: 'Guías locales certificados con profundo conocimiento de la cultura, historia y tradiciones de Rabinal.',
-    },
-    {
-      icon: Utensils,
-      title: 'Comidas y Gastronomía',
-      description: 'Degustación de platillos tradicionales preparados por familias locales. Experiencias culinarias auténticas con ingredientes de la región.',
-    },
-    {
-      icon: Home,
-      title: 'Asistencia de Alojamiento',
-      description: 'Recomendaciones y coordinación de hospedaje en hoteles locales y casas de familia. Opciones para todos los presupuestos.',
-    },
-    {
-      icon: Calendar,
-      title: 'Coordinación de Grupos',
-      description: 'Organización completa para grupos grandes, incluyendo escuelas, empresas y organizaciones. Itinerarios personalizados según necesidades.',
-    },
-    {
-      icon: Sparkles,
-      title: 'Experiencias Personalizadas',
-      description: 'Diseñamos tours a medida según tus intereses: fotografía, artesanía, naturaleza, espiritualidad maya o combinaciones únicas.',
-    },
-  ];
-
   return (
     <>
       <Helmet>
         <title>Servicios - Essence Rabinal</title>
-        <meta 
-          name="description" 
-          content="Descubre nuestros servicios: guías profesionales, experiencias gastronómicas, alojamiento y tours personalizados en Rabinal." 
-        />
+        <meta name="description" content="Descubre nuestros servicios: guías profesionales, experiencias gastronómicas, alojamiento y tours personalizados en Rabinal." />
       </Helmet>
 
-      <div className="min-h-screen flex flex-col">
+      <div className="flex min-h-screen flex-col bg-ink">
         <Header />
 
         <main className="flex-1">
-          <section className="relative py-20 bg-gradient-to-b from-muted to-background">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-center mb-12"
-              >
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">Nuestros Servicios</h1>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Servicios completos para hacer de tu visita a Rabinal una experiencia inolvidable
-                </p>
-              </motion.div>
-            </div>
-          </section>
+          <PageHero
+            breadcrumb={<>Inicio &nbsp;/&nbsp; <span className="text-gold">Servicios</span></>}
+            title="Nuestros Servicios"
+            subtitle="Servicios completos para hacer de tu visita a Rabinal una experiencia inolvidable."
+            image="/images/trad-comunidad.webp"
+          />
 
-          <section className="py-16">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <ServiceCard {...service} />
-                  </motion.div>
+          {/* Services grid */}
+          <section className="bg-ink py-16 md:py-24">
+            <div className="mx-auto max-w-[1340px] px-5 md:px-8">
+              <SectionHeading
+                eyebrow="Lo que ofrecemos"
+                title="Todo para tu experiencia"
+                subtitle="Acompañamiento integral, de la mano de la comunidad Achí, en cada etapa de tu viaje."
+                className="mb-12 md:mb-16"
+              />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {services.map((s, i) => (
+                  <Reveal key={s.title} delay={(i % 3) * 0.08}>
+                    <div className="ez-glass ez-lift group relative h-full overflow-hidden rounded-[18px] p-7 hover:border-gold/50 hover:bg-white/[0.06]">
+                      <span className="absolute right-5 top-4 font-display text-5xl font-bold text-white/[0.06] transition-colors group-hover:text-gold/20">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-[14px] bg-gradient-to-br from-gold/25 to-jade/20 text-gold">
+                        <s.icon className="h-7 w-7" />
+                      </div>
+                      <h3 className="mb-2.5 font-display text-xl font-semibold text-white">{s.title}</h3>
+                      <p className="font-body text-sm leading-relaxed text-cream/65">{s.description}</p>
+                    </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
           </section>
 
-          <section className="py-16 bg-muted">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-4xl mx-auto">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center"
-                >
-                  <h2 className="text-3xl font-bold mb-6">¿Por qué elegirnos?</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Experiencia local:</span> Somos nativos de Rabinal con profundo conocimiento de nuestra tierra
-                        </p>
+          {/* Why us */}
+          <section className="bg-ink-2 py-16 md:py-24">
+            <div className="mx-auto max-w-[1340px] px-5 md:px-8">
+              <SectionHeading
+                eyebrow="Nuestra diferencia"
+                title="¿Por qué elegirnos?"
+                subtitle="Turismo 100% comunitario y sostenible, hecho por y para la comunidad de Rabinal."
+                className="mb-12 md:mb-16"
+              />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {reasons.map((r, i) => (
+                  <Reveal key={r.title} delay={(i % 3) * 0.08}>
+                    <div className="ez-lift flex h-full items-start gap-4 rounded-[18px] border border-white/[0.08] bg-ink p-6 hover:border-gold/40">
+                      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-jade/25 to-gold/20 text-jade">
+                        <r.icon className="h-5 w-5" />
                       </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Turismo responsable:</span> Prácticas sostenibles que benefician a las comunidades
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Atención personalizada:</span> Grupos pequeños para experiencias más íntimas
-                        </p>
+                      <div>
+                        <h3 className="mb-1.5 font-display text-lg font-semibold text-white">{r.title}</h3>
+                        <p className="font-body text-sm leading-relaxed text-cream/65">{r.text}</p>
                       </div>
                     </div>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Flexibilidad:</span> Adaptamos los tours a tus intereses y necesidades
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Seguridad:</span> Protocolos de seguridad y guías certificados
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">Autenticidad:</span> Experiencias reales, no escenificadas
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                  </Reveal>
+                ))}
               </div>
             </div>
           </section>
+
+          <CtaBand
+            title="¿Listo para tu experiencia en Rabinal?"
+            subtitle="Cuéntanos qué te gustaría vivir y nuestros guías locales de la comunidad se encargan del resto."
+            ctaLabel="Contáctanos"
+          />
         </main>
 
         <Footer />

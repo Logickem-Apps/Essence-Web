@@ -1,118 +1,103 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
-import EssenceRabinalLogo from '@/components/EssenceRabinalLogo.jsx';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import { socials } from '@/lib/socials.jsx';
+
+const LOGO = '/images/logo-essence.webp';
+
+const exploreLinks = [
+  { to: '/', label: 'Inicio' },
+  { to: '/explorar', label: 'Explorar Rabinal' },
+  { to: '/tours', label: 'Tours y Experiencias' },
+  { to: '/galeria', label: 'Galería' },
+  { to: '/calendario', label: 'Calendario' },
+  { to: '/servicios', label: 'Servicios' },
+  { to: '/sobre-nosotros', label: 'Sobre Nosotros' },
+  { to: '/contacto', label: 'Contacto' },
+];
 
 function Footer() {
   return (
-    <footer className="w-full mt-auto">
-      <div className="relative bg-[hsl(var(--footer-bg))] text-[hsl(var(--footer-fg))] overflow-hidden border-t-4 border-secondary">
-        
-        {/* Discrete Watermark Background */}
-        <div 
-          className="watermark-bg watermark-size bottom-0 right-0 sm:bottom-4 sm:right-4 lg:bottom-12 lg:right-12 bg-contain bg-no-repeat bg-bottom opacity-5 mix-blend-luminosity" 
-          style={{
-            backgroundImage: `url('https://horizons-cdn.hostinger.com/d3fcc168-8217-40d2-89ff-4389dfaaf8fa/4e2d078af5636413fb8de5ff244c8ec8.png')`
-          }} 
-          aria-hidden="true" 
-        />
-
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
-            
-            {/* Column 1: Logo & Branding Section */}
-            <div className="md:col-span-12 lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <div className="flex flex-col items-center lg:items-start mb-6 bg-white p-4 rounded-2xl shadow-md border border-secondary/30">
-                <EssenceRabinalLogo className="h-24 sm:h-28 w-auto" />
-              </div>
-              <p className="text-[hsl(var(--footer-muted))] leading-relaxed max-w-md text-base">
-                Descubre la auténtica cultura y belleza de Rabinal, Baja Verapaz. Ofrecemos experiencias inolvidables que conectan con nuestras raíces.
-              </p>
-              
-              <div className="flex gap-4 mt-8">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-center w-10 h-10 rounded-full border border-secondary/40 bg-transparent hover:bg-[hsl(var(--footer-accent))] hover:border-[hsl(var(--footer-accent))] transition-smooth" aria-label="Facebook">
-                  <Facebook className="w-4 h-4 text-[hsl(var(--footer-fg))] group-hover:text-white transition-colors" />
+    <footer className="mt-auto w-full border-t border-gold/20 bg-ink-3 text-cream">
+      <div className="mx-auto max-w-[1340px] px-5 pt-16 md:px-8 md:pt-20">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
+          {/* Brand */}
+          <div className="max-w-sm">
+            <img src={LOGO} alt="Essence Rabinal" loading="lazy" className="mb-5 h-16 w-auto rounded-xl" />
+            <p className="font-body text-[15px] leading-relaxed text-cream/65">
+              Descubre la auténtica cultura y belleza de Rabinal, Baja Verapaz. Experiencias inolvidables que
+              conectan con nuestras raíces.
+            </p>
+            <div className="mt-6 flex gap-3">
+              {socials.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.06] text-cream transition-colors hover:bg-gold hover:text-gold-ink"
+                >
+                  <Icon className="h-4 w-4" />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-center w-10 h-10 rounded-full border border-secondary/40 bg-transparent hover:bg-[hsl(var(--footer-accent))] hover:border-[hsl(var(--footer-accent))] transition-smooth" aria-label="Instagram">
-                  <Instagram className="w-4 h-4 text-[hsl(var(--footer-fg))] group-hover:text-white transition-colors" />
-                </a>
-                <a href="https://wa.me/50238506731" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-center w-10 h-10 rounded-full border border-secondary/40 bg-transparent hover:bg-[hsl(var(--footer-accent))] hover:border-[hsl(var(--footer-accent))] transition-smooth" aria-label="WhatsApp">
-                  <MessageCircle className="w-4 h-4 text-[hsl(var(--footer-fg))] group-hover:text-white transition-colors" />
-                </a>
-              </div>
+              ))}
             </div>
-
-            {/* Column 2: Quick Links Section */}
-            <div className="md:col-span-6 lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <h3 className="font-semibold text-lg mb-6 text-secondary tracking-wider uppercase">
-                Explora
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link to="/" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-accent))] transition-colors duration-200 text-base font-medium">
-                    Inicio
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/explorar" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-accent))] transition-colors duration-200 text-base font-medium">
-                    Explorar Rabinal
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tours" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-accent))] transition-colors duration-200 text-base font-medium">
-                    Tours y Experiencias
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/sobre-nosotros" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-accent))] transition-colors duration-200 text-base font-medium">
-                    Sobre Nosotros
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contacto" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-accent))] transition-colors duration-200 text-base font-medium">
-                    Contacto
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Contact Section */}
-            <div className="md:col-span-6 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <h3 className="font-semibold text-lg mb-6 text-secondary tracking-wider uppercase">
-                Contacto
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex flex-col lg:flex-row items-center lg:items-start gap-3">
-                  <MapPin className="w-5 h-5 flex-shrink-0 text-[hsl(var(--footer-accent))] mt-0.5" />
-                  <span className="text-[hsl(var(--footer-muted))] text-base">Rabinal, Baja Verapaz, Guatemala</span>
-                </li>
-                <li className="flex flex-col lg:flex-row items-center lg:items-start gap-3">
-                  <Phone className="w-5 h-5 flex-shrink-0 text-[hsl(var(--footer-accent))]" />
-                  <span className="text-[hsl(var(--footer-muted))] text-base">+502 3850 6731</span>
-                </li>
-                <li className="flex flex-col lg:flex-row items-center lg:items-start gap-3">
-                  <Mail className="w-5 h-5 flex-shrink-0 text-[hsl(var(--footer-accent))]" />
-                  <span className="text-[hsl(var(--footer-muted))] text-base">info@essencerabinal.com</span>
-                </li>
-              </ul>
-            </div>
-
           </div>
 
-          {/* Bottom Copyright Bar */}
-          <div className="mt-16 pt-8 border-t border-secondary/20 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[hsl(var(--footer-muted))] text-sm font-medium tracking-wide">
-              Todos los Derechos Reservados © {new Date().getFullYear()} Essence Rabinal
-            </p>
-            <div className="flex items-center gap-4">
-              <Link to="/privacidad" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-fg))] transition-colors duration-200 text-sm">
-                Privacidad
-              </Link>
-              <span className="text-[hsl(var(--footer-muted))]/50">•</span>
-              <Link to="/terminos" className="text-[hsl(var(--footer-muted))] hover:text-[hsl(var(--footer-fg))] transition-colors duration-200 text-sm">
-                Términos
-              </Link>
-            </div>
+          {/* Explore */}
+          <div>
+            <h4 className="mb-5 font-body text-xs font-semibold uppercase tracking-[0.16em] text-gold">Explora</h4>
+            <ul className="flex flex-col gap-3">
+              {exploreLinks.map(({ to, label }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="font-body text-[14.5px] text-cream/70 transition-colors hover:text-gold"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="mb-5 font-body text-xs font-semibold uppercase tracking-[0.16em] text-gold">Contacto</h4>
+            <ul className="flex flex-col gap-3 font-body text-[14.5px] text-cream/70">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" />
+                <span>Rabinal, Baja Verapaz, Guatemala</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 flex-shrink-0 text-gold" />
+                <span>+502 3850 6731</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Mail className="h-4 w-4 flex-shrink-0 text-gold" />
+                <span>info@essencerabinal.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 md:flex-row">
+          <span className="font-body text-[13px] text-cream/50">
+            Todos los Derechos Reservados © {new Date().getFullYear()} Essence Rabinal
+          </span>
+          <div className="flex items-center gap-3.5">
+            <Link to="/privacidad" className="font-body text-[13px] text-cream/50 transition-colors hover:text-cream">
+              Privacidad
+            </Link>
+            <span className="text-cream/30">•</span>
+            <Link to="/terminos" className="font-body text-[13px] text-cream/50 transition-colors hover:text-cream">
+              Términos
+            </Link>
+            <span className="text-cream/30">•</span>
+            <Link to="/admin/login" className="font-body text-[13px] text-cream/50 transition-colors hover:text-cream">
+              Staff Login
+            </Link>
           </div>
         </div>
       </div>

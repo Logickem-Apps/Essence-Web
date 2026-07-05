@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,80 +20,90 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { toast } from 'sonner';
-import { Loader2, MessageCircle } from 'lucide-react';
-import pb from '@/lib/pocketbaseClient';
+import { MessageCircle } from 'lucide-react';
+
+const WHATSAPP_NUMBER = '50238506731';
+
+const TOUR_OPTIONS = [
+  'Centro Histórico',
+  'Artesanías Tradicionales',
+  'Sitios Arqueológicos',
+  'Río Negro',
+  'Experiencias Comunitarias',
+  'Experiencia personalizada',
+  'Aún no lo sé',
+];
 
 const formSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().email('Correo electrónico inválido'),
   phone: z.string().optional(),
-  message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),
+  group_size: z.string().optional(),
+  preferred_date: z.string().optional(),
   tour_interest: z.string().optional(),
+  message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),
 });
 
-function ContactForm({ initialTourInterest = '' }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+// Shared dark-theme field styles for the Inmersivo palette.
+const fieldClass =
+  'border-white/15 bg-white/[0.04] text-cream placeholder:text-cream/40 focus-visible:ring-gold focus-visible:ring-offset-0';
+const labelClass = 'font-body text-sm font-semibold text-cream/90';
 
+function ContactForm({ initialTourInterest = '' }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       email: '',
       phone: '',
-      message: '',
+      group_size: '',
+      preferred_date: '',
       tour_interest: initialTourInterest,
+      message: '',
     },
   });
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      await pb.collection('contact_submissions').create(data, { $autoCancel: false });
-      
-      toast.success('Mensaje enviado correctamente');
-      form.reset();
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('Error al enviar el mensaje. Por favor, intenta de nuevo.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const generateWhatsAppLink = () => {
-    const values = form.getValues();
-    const message = `Hola, soy ${values.name}. ${values.message}${values.tour_interest ? ` Estoy interesado en: ${values.tour_interest}` : ''}`;
-    const encodedMessage = encodeURIComponent(message);
-    return `https://wa.me/50212345678?text=${encodedMessage}`;
+  // Con los datos validados, abre WhatsApp con el mensaje ya compuesto hacia el número del operador.
+  const onSubmit = (v) => {
+    const lines = [
+      `¡Hola Essence Rabinal! Soy ${v.name}.`,
+      v.tour_interest && `Me interesa: ${v.tour_interest}.`,
+      v.group_size && `Somos ${v.group_size} persona(s).`,
+      v.preferred_date && `Fecha tentativa: ${v.preferred_date}.`,
+      `Correo: ${v.email}.`,
+      v.phone && `Teléfono: ${v.phone}.`,
+      v.message && `\n${v.message}`,
+    ].filter(Boolean);
+    const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join(' '))}`;
+    window.open(link, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="space-y-6 bg-card p-6 md:p-8 rounded-2xl border border-secondary/50 shadow-sm">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-accent font-semibold">Nombre completo</FormLabel>
-                <FormControl>
-                  <Input placeholder="Tu nombre" className="border-secondary focus-visible:ring-primary" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className={labelClass}>Nombre completo</FormLabel>
+              <FormControl>
+                <Input placeholder="Tu nombre" className={fieldClass} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-accent font-semibold">Correo electrónico</FormLabel>
+                <FormLabel className={labelClass}>Correo electrónico</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="tu@email.com" className="border-secondary focus-visible:ring-primary" {...field} />
+                  <Input type="email" placeholder="tu@email.com" className={fieldClass} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,9 +115,25 @@ function ContactForm({ initialTourInterest = '' }) {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-accent font-semibold">Teléfono (opcional)</FormLabel>
+                <FormLabel className={labelClass}>Teléfono / WhatsApp (opcional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="+502 1234 5678" className="border-secondary focus-visible:ring-primary" {...field} />
+                  <Input placeholder="+502 0000 0000" className={fieldClass} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="group_size"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={labelClass}>N.º de personas (opcional)</FormLabel>
+                <FormControl>
+                  <Input type="number" min="1" placeholder="Ej. 4" className={fieldClass} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -116,68 +142,76 @@ function ContactForm({ initialTourInterest = '' }) {
 
           <FormField
             control={form.control}
-            name="tour_interest"
+            name="preferred_date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-accent font-semibold">Tour de interés (opcional)</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="border-secondary focus-visible:ring-primary">
-                      <SelectValue placeholder="Selecciona un tour" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Cultural Tour">Cultural Tour</SelectItem>
-                    <SelectItem value="Gastronomic Tour">Gastronomic Tour</SelectItem>
-                    <SelectItem value="Nature & Hiking Tour">Nature & Hiking Tour</SelectItem>
-                    <SelectItem value="Community Experience Tour">Community Experience Tour</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-accent font-semibold">Mensaje</FormLabel>
+                <FormLabel className={labelClass}>Fecha tentativa (opcional)</FormLabel>
                 <FormControl>
-                  <Textarea 
-                    placeholder="Cuéntanos sobre tu interés en nuestros tours..."
-                    className="min-h-[120px] border-secondary focus-visible:ring-primary"
-                    {...field}
-                  />
+                  <Input type="date" className={`${fieldClass} [color-scheme:dark]`} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+        </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
-            <Button 
-              type="submit" 
-              disabled={isSubmitting}
-              className="flex-1"
-            >
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Enviar Mensaje
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => window.open(generateWhatsAppLink(), '_blank')}
-              className="flex-1"
-            >
-              <MessageCircle className="mr-2 h-4 w-4" />
-              Contactar por WhatsApp
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+        <FormField
+          control={form.control}
+          name="tour_interest"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className={labelClass}>Experiencia de interés (opcional)</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className={fieldClass}>
+                    <SelectValue placeholder="Selecciona una experiencia" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="border-white/10 bg-ink-2 text-cream">
+                  {TOUR_OPTIONS.map((tour) => (
+                    <SelectItem key={tour} value={tour} className="focus:bg-white/10 focus:text-gold">
+                      {tour}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="message"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className={labelClass}>Mensaje</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Cuéntanos qué te gustaría vivir en Rabinal y cualquier detalle importante..."
+                  className={`min-h-[120px] ${fieldClass}`}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp py-3 font-body font-bold text-[#06140b] shadow-[0_10px_26px_rgba(37,211,102,0.4)] transition hover:-translate-y-0.5 hover:brightness-105"
+        >
+          <MessageCircle className="h-[18px] w-[18px]" />
+          Enviar por WhatsApp
+        </Button>
+
+        <p className="pt-1 font-body text-xs leading-relaxed text-cream/55">
+          Al enviar se abrirá WhatsApp con tu mensaje ya escrito para que lo confirmes. Te responderemos con la
+          información y opciones para armar tu experiencia. Turismo 100% comunitario.
+        </p>
+      </form>
+    </Form>
   );
 }
 

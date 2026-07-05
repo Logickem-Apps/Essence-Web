@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { ShieldAlert, Mail, Lock, ArrowLeft } from 'lucide-react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export default function AdminLoginPage() {

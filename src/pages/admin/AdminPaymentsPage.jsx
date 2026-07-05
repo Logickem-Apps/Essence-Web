@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import AdminLayout from '@/components/admin/AdminLayout.jsx';
 import { CreditCard, DollarSign } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
