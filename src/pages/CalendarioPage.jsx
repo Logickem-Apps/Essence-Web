@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { Link, useLocation } from 'react-router-dom';
 import { CalendarDays, ArrowRight, PartyPopper, Church, Cross, Flower2, Flame, Baby, Users } from 'lucide-react';
 import Header from '@/components/Header';
@@ -120,13 +120,11 @@ function CalendarioPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Calendario de Actividades - Essence Rabinal</title>
-        <meta
-          name="description"
-          content="Conoce las actividades y celebraciones de Rabinal, Baja Verapaz: feria patronal de San Pablo, Semana Santa, Corrida del Niño, cofradías y más. Planifica tu visita según la fecha."
-        />
-      </Helmet>
+      <Seo
+        title="Calendario de Actividades - Essence Rabinal"
+        description="Conoce las actividades y celebraciones de Rabinal, Baja Verapaz: feria patronal de San Pablo, Semana Santa, Corrida del Niño, cofradías y más. Planifica tu visita según la fecha."
+        path="/calendario"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />

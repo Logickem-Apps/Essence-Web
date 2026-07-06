@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ToursHero from '@/components/ToursHero';
@@ -75,13 +75,11 @@ const toursData = [
 function ToursPage() {
   return (
     <>
-      <Helmet>
-        <title>Tours y Experiencias - Essence Rabinal</title>
-        <meta
-          name="description"
-          content="Descubre nuestros tours culturales, gastronómicos y de naturaleza en Rabinal: artesanías de morro, Río Negro, centro histórico y experiencias comunitarias con guías locales."
-        />
-      </Helmet>
+      <Seo
+        title="Tours y Experiencias - Essence Rabinal"
+        description="Descubre nuestros tours culturales, gastronómicos y de naturaleza en Rabinal: artesanías de morro, Río Negro, centro histórico y experiencias comunitarias con guías locales."
+        path="/tours"
+      />
 
       <div className="min-h-screen flex flex-col bg-background">
         <Header />

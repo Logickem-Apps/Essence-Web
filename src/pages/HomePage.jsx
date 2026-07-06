@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import HomeHero from '@/components/HomeHero.jsx';
 import CalendarAlert from '@/components/immersive/CalendarAlert.jsx';
 import PortalGrid from '@/components/immersive/PortalGrid.jsx';
@@ -13,13 +13,11 @@ import CtaSection from '@/components/immersive/CtaSection.jsx';
 function HomePage() {
   return (
     <>
-      <Helmet>
-        <title>Essence Rabinal - Portal Turístico de Rabinal, Guatemala</title>
-        <meta
-          name="description"
-          content="Descubre la auténtica cultura de Rabinal, Baja Verapaz. Tours culturales, gastronómicos y de naturaleza con guías locales. Experiencias únicas en Guatemala."
-        />
-      </Helmet>
+      <Seo
+        title="Essence Rabinal - Turismo Comunitario en Rabinal, Baja Verapaz"
+        description="Descubre la auténtica cultura de Rabinal, Baja Verapaz. Tours culturales, gastronómicos y de naturaleza con guías locales del pueblo maya Achí en Guatemala."
+        path="/"
+      />
 
       <div className="flex w-full flex-col bg-ink">
         <div className="relative">

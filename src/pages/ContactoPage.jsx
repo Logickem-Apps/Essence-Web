@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { useLocation } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 import Header from '@/components/Header';
@@ -47,10 +47,11 @@ function ContactoPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Contacto - Essence Rabinal</title>
-        <meta name="description" content="Contáctanos para reservar tu tour en Rabinal. Estamos disponibles por WhatsApp, teléfono y email. Respuesta rápida garantizada." />
-      </Helmet>
+      <Seo
+        title="Contacto - Essence Rabinal"
+        description="Contáctanos para reservar tu tour en Rabinal. Estamos disponibles por WhatsApp, teléfono y email. Respuesta rápida garantizada."
+        path="/contacto"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />

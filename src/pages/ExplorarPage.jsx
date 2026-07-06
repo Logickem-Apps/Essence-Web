@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { motion } from 'framer-motion';
 import { Info, Utensils, Landmark, ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/Header';
@@ -164,10 +164,11 @@ function ExplorarPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Explorar Rabinal - Essence Rabinal</title>
-        <meta name="description" content="Descubre información sobre Rabinal, su cultura, gastronomía y tradiciones. Conoce la rica herencia del pueblo maya Achí en Baja Verapaz, Guatemala." />
-      </Helmet>
+      <Seo
+        title="Explorar Rabinal - Essence Rabinal"
+        description="Descubre información sobre Rabinal, su cultura, gastronomía y tradiciones. Conoce la rica herencia del pueblo maya Achí en Baja Verapaz, Guatemala."
+        path="/explorar"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -45,10 +45,11 @@ function GaleriaPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Galería - Essence Rabinal</title>
-        <meta name="description" content="Explora nuestra galería de Rabinal: paisajes, cultura, artesanías, tradiciones, gastronomía y sitios históricos de Baja Verapaz." />
-      </Helmet>
+      <Seo
+        title="Galería - Essence Rabinal"
+        description="Explora nuestra galería de Rabinal: paisajes, cultura, artesanías, tradiciones, gastronomía y sitios históricos de Baja Verapaz."
+        path="/galeria"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />

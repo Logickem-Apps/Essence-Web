@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { Link } from 'react-router-dom';
 import { Target, Eye, ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
@@ -36,10 +36,11 @@ const values = [
 function SobreNosotrosPage() {
   return (
     <>
-      <Helmet>
-        <title>Sobre Nosotros - Essence Rabinal</title>
-        <meta name="description" content="Conoce la historia, misión y valores de Essence Rabinal. Promovemos turismo cultural auténtico y sostenible en Rabinal, Baja Verapaz." />
-      </Helmet>
+      <Seo
+        title="Sobre Nosotros - Essence Rabinal"
+        description="Conoce la historia, misión y valores de Essence Rabinal. Promovemos turismo cultural auténtico y sostenible en Rabinal, Baja Verapaz."
+        path="/sobre-nosotros"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />

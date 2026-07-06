@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '@/components/Seo.jsx';
 import { Users, Utensils, Home, Calendar, Sparkles, MapPin, Leaf, HeartHandshake, Shield, Compass, Gem } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -28,10 +28,11 @@ const reasons = [
 function ServiciosPage() {
   return (
     <>
-      <Helmet>
-        <title>Servicios - Essence Rabinal</title>
-        <meta name="description" content="Descubre nuestros servicios: guías profesionales, experiencias gastronómicas, alojamiento y tours personalizados en Rabinal." />
-      </Helmet>
+      <Seo
+        title="Servicios - Essence Rabinal"
+        description="Descubre nuestros servicios: guías profesionales, experiencias gastronómicas, alojamiento y tours personalizados en Rabinal."
+        path="/servicios"
+      />
 
       <div className="flex min-h-screen flex-col bg-ink">
         <Header />
